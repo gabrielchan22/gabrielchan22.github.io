@@ -1,0 +1,1017 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gabriel Chan | Machine Learning & Biomedical AI</title>
+    <meta name="description" content="Gabriel Chan: machine learning and biomedical data pipelines, with a background in physiology, biomedical engineering and computer science.">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-main: #94a3b8;
+            --text-light: #e2e8f0;
+            --accent: #5eead4;
+            --card-bg: rgba(30, 41, 59, 0.4);
+            --card-hover: rgba(30, 41, 59, 0.7);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .spotlight {
+            pointer-events: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: radial-gradient(800px circle at var(--x, 50%) var(--y, 50%), rgba(29, 78, 216, 0.12), transparent 80%);
+            z-index: 0;
+        }
+
+        a {
+            color: var(--text-light);
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        a:hover {
+            color: var(--accent);
+        }
+
+        .top-nav {
+            position: sticky;
+            top: 0;
+            background-color: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            z-index: 100;
+            width: 100%;
+        }
+
+        .nav-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 16px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo {
+            font-weight: 700;
+            color: var(--text-light);
+            font-size: 0.95rem;
+            letter-spacing: 0.05em;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 24px;
+            list-style: none;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .nav-links a {
+            color: var(--text-main);
+            transition: color 0.2s ease;
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            color: var(--accent);
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 60px 24px 100px 24px;
+            position: relative;
+            z-index: 1;
+        }
+
+        header {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            margin-bottom: 80px;
+            padding-bottom: 40px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .header-top {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+            margin-bottom: 24px;
+            width: 100%;
+        }
+
+        .avatar {
+            width: 110px;
+            height: 110px;
+            border-radius: 50%;
+            border: 2px solid var(--accent);
+            object-fit: cover;
+            background-color: var(--card-bg);
+            flex-shrink: 0;
+        }
+
+        .header-titles h1 {
+            font-size: 3rem;
+            color: var(--text-light);
+            letter-spacing: -0.025em;
+            line-height: 1.1;
+            margin-bottom: 8px;
+        }
+
+        .header-titles h2 {
+            font-size: 1.25rem;
+            font-weight: 500;
+            color: var(--text-light);
+            margin: 0;
+        }
+
+        p.tagline {
+            font-size: 1.1rem;
+            max-width: 700px;
+            margin-bottom: 28px;
+            color: var(--text-main);
+        }
+
+        .open-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+            padding: 6px 14px;
+            border: 1px solid rgba(94, 234, 212, 0.4);
+            background-color: rgba(45, 212, 191, 0.08);
+            border-radius: 9999px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--accent);
+        }
+
+        .open-tag::before {
+            content: "";
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: var(--accent);
+        }
+
+        .open-tag:hover {
+            background-color: rgba(45, 212, 191, 0.16);
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .resume-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--accent);
+            background-color: rgba(45, 212, 191, 0.1);
+            border: 1px solid var(--accent);
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            transition: all 0.2s ease;
+        }
+
+        .resume-btn:hover {
+            background-color: var(--accent);
+            color: var(--bg-color);
+            transform: translateY(-2px);
+        }
+
+        .socials {
+            display: flex;
+            gap: 20px;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        section {
+            margin-bottom: 80px;
+            scroll-margin-top: 80px;
+        }
+
+        section h3 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--text-light);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 28px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        section h3::after {
+            content: "";
+            flex: 1;
+            height: 1px;
+            background-color: rgba(255, 255, 255, 0.08);
+        }
+
+        p {
+            margin-bottom: 16px;
+        }
+
+        strong.highlight {
+            color: var(--text-light);
+            font-weight: 600;
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .skill-card {
+            background: var(--card-bg);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 20px;
+            border-radius: 8px;
+        }
+
+        .skill-card h4 {
+            color: var(--text-light);
+            font-size: 1rem;
+            margin-bottom: 12px;
+        }
+
+        .card {
+            display: grid;
+            grid-template-columns: 140px 1fr;
+            gap: 20px;
+            padding: 24px;
+            margin-bottom: 24px;
+            background: var(--card-bg);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            transition: all 0.2s ease;
+            text-decoration: none;
+            color: var(--text-main);
+        }
+
+        .card:hover {
+            background: var(--card-hover);
+            border-color: rgba(94, 234, 212, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .card-dates {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            color: var(--text-main);
+        }
+
+        .card-content h4 {
+            color: var(--text-light);
+            font-size: 1.05rem;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: baseline;
+            gap: 6px;
+        }
+
+        .card-content h4 svg {
+            width: 14px;
+            height: 14px;
+            transition: transform 0.2s ease;
+        }
+
+        .card:hover .card-content h4 {
+            color: var(--accent);
+        }
+
+        .card:hover .card-content h4 svg {
+            transform: translate(2px, -2px);
+        }
+
+        .featured-project-card {
+            position: relative;
+            margin-bottom: 36px;
+            background: rgba(30, 41, 59, 0.3);
+            border-radius: 12px;
+            padding: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .featured-project-card:hover {
+            background: rgba(30, 41, 59, 0.5);
+            border-color: rgba(94, 234, 212, 0.3);
+        }
+
+        .featured-header {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--accent);
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .featured-title {
+            font-size: 1.35rem;
+            color: var(--text-light);
+            margin-bottom: 16px;
+            font-weight: 700;
+        }
+
+        .featured-grid {
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .featured-img-wrap {
+            position: relative;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .featured-img {
+            width: 100%;
+            height: auto;
+            aspect-ratio: 1/1;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.3s ease;
+        }
+
+        /* For real charts/diagrams: show the full image rather than cropping it to the square */
+        .featured-img.contain {
+            object-fit: contain;
+            background-color: #f8fafc;
+            padding: 10px;
+        }
+
+        .featured-project-card:hover .featured-img {
+            transform: scale(1.03);
+        }
+
+        .featured-desc-box {
+            background-color: #1e293b;
+            padding: 18px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            color: var(--text-light);
+            box-shadow: 0 10px 30px -10px rgba(2, 12, 27, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            margin-bottom: 12px;
+        }
+
+        .featured-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            margin-top: 12px;
+        }
+
+        .featured-links a {
+            color: var(--text-light);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.85rem;
+        }
+
+        .featured-links a:hover {
+            color: var(--accent);
+        }
+
+        .result-chart {
+            margin: 18px 0 4px;
+            padding: 14px 16px;
+            background-color: rgba(15, 23, 42, 0.4);
+            border-radius: 6px;
+        }
+
+        .result-chart h5 {
+            margin: 0 0 10px;
+            font-size: 0.78rem;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--text-main);
+        }
+
+        .rc-row {
+            display: grid;
+            grid-template-columns: minmax(0, 16em) 1fr 3.6em;
+            gap: 10px;
+            align-items: center;
+            margin: 6px 0;
+            font-size: 0.82rem;
+            color: var(--text-light);
+        }
+
+        .rc-bar {
+            height: 10px;
+            border-radius: 5px;
+            background-color: rgba(148, 163, 184, 0.12);
+        }
+
+        .rc-bar i {
+            display: block;
+            height: 100%;
+            border-radius: 5px;
+            background-color: #475569;
+        }
+
+        .rc-bar i.hi { background-color: var(--accent); }
+        .rc-bar i.ref { background-color: var(--text-light); }
+        .rc-bar i.bad { background-color: #f87171; }
+
+        .rc-val {
+            text-align: right;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .rc-note {
+            margin: 10px 0 0;
+            font-size: 0.78rem;
+            line-height: 1.5;
+            color: var(--text-main);
+        }
+
+        @media (max-width: 768px) {
+            .rc-row { grid-template-columns: 1fr 3.6em; gap: 4px 10px; }
+            .rc-row > span:first-child { grid-column: 1 / -1; }
+        }
+
+        .project-stats {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px 20px;
+            margin: 12px 0;
+            padding: 10px 14px;
+            background-color: rgba(15, 23, 42, 0.4);
+            border-radius: 6px;
+            border-left: 2px solid var(--accent);
+        }
+
+        .stat-item {
+            font-size: 0.85rem;
+            color: var(--text-light);
+            display: flex;
+            align-items: center;
+        }
+
+        .stat-item strong {
+            color: var(--accent);
+            margin-right: 6px;
+            font-size: 0.95rem;
+        }
+
+        .skills-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 14px;
+        }
+
+        .skill-tag {
+            background-color: rgba(45, 212, 191, 0.1);
+            color: var(--accent);
+            padding: 4px 12px;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        .contact-box {
+            background: rgba(30, 41, 59, 0.4);
+            border: 1px solid rgba(94, 234, 212, 0.2);
+            border-radius: 12px;
+            padding: 36px;
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .contact-box h4 {
+            font-size: 1.5rem;
+            color: var(--text-light);
+            margin-bottom: 16px;
+        }
+
+        .contact-box p {
+            max-width: 550px;
+            margin: 0 auto 24px auto;
+            color: var(--text-main);
+        }
+
+        .contact-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background-color: var(--accent);
+            color: var(--bg-color);
+            padding: 12px 28px;
+            border-radius: 6px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            transition: transform 0.2s ease, opacity 0.2s ease;
+        }
+
+        .contact-btn:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+            color: var(--bg-color);
+        }
+
+        .card.static:hover {
+            background: var(--card-bg);
+            border-color: rgba(255, 255, 255, 0.05);
+            transform: none;
+        }
+
+        .card.static:hover .card-content h4 {
+            color: var(--text-light);
+        }
+
+        .open-roles {
+            max-width: 550px;
+            margin: 0 auto 24px auto;
+            padding-left: 20px;
+            text-align: left;
+            color: var(--text-main);
+        }
+
+        .open-roles li {
+            margin-bottom: 8px;
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .container {
+                padding: 40px 20px;
+            }
+
+            .header-top {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .card {
+                grid-template-columns: 1fr;
+                gap: 8px;
+            }
+
+            .featured-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="spotlight"></div>
+
+    <nav class="top-nav">
+        <div class="nav-container">
+            <a href="#" class="nav-logo">Gabriel Chan</a>
+            <ul class="nav-links">
+                <li><a href="#about">About</a></li>
+                <li><a href="#experience">Experience</a></li>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#skills">Skills</a></li>
+                <li><a href="#education">Education</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+    
+    <div class="container">
+        <header>
+            <div class="header-top">
+                <img class="avatar" src="assets/avatar.jpg" alt="Gabriel Chan">
+                <div class="header-titles">
+                    <h1>Gabriel Chan</h1>
+                    <h2>Machine Learning & Biomedical AI</h2>
+                </div>
+            </div>
+            
+            <a href="#contact" class="open-tag">Open to work: machine learning and medtech roles</a>
+
+            <p class="tagline">Bridging clinical physiology and computer science. Building end-to-end diagnostic pipelines and custom AI architectures for healthcare data.</p>
+            
+            <div class="header-actions">
+                <a href="assets/resume/Gabriel_Chan_Resume.pdf" class="resume-btn" download>
+                    Resume
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                        <polyline points="7 10 12 15 17 10"></polyline>
+                        <line x1="12" y1="15" x2="12" y2="3"></line>
+                    </svg>
+                </a>
+                
+                <div class="socials">
+                    <a href="https://github.com/gabrielchan22" target="_blank">GitHub</a>
+                    <a href="mailto:gabriel.c10102@gmail.com">Email</a>
+                </div>
+            </div>
+        </header>
+
+        <main>
+            <section id="about">
+                <h3>About Me</h3>
+                <p>I build <strong class="highlight">machine learning for healthcare data</strong>, with a background that spans the lab bench, medical device design and computer science. I care most about whether a model holds up on real clinical data, not just on a benchmark.</p>
+
+                <div class="skills-grid" style="margin-top: 28px;">
+                    <div class="skill-card">
+                        <h4>Data from the source</h4>
+                        <p>Before I modeled data, I generated it &mdash; crypt isolation, 3D organoid culture, microscopy-based quantification, in the Asfaha Lab at Western.</p>
+                    </div>
+                    <div class="skill-card">
+                        <h4>Models from first principles</h4>
+                        <p>I implemented LoRA from scratch and traced a rank-16 training collapse to its cause, and ran a controlled 8-model CNN ablation to isolate why batch norm and residual connections underperformed at this data scale.</p>
+                    </div>
+                    <div class="skill-card">
+                        <h4>Biomedical Device Development</h4>
+                        <p>On a Class III device project, I helped trace 240+ design inputs to tests and assess 60+ hazards.</p>
+                    </div>
+                    <div class="skill-card">
+                        <h4>Clear communication</h4>
+                        <p>I write to make dense material usable &mdash; from project documentation to a children's anatomy book translating physiology for readers aged 6&ndash;10.</p>
+                    </div>
+                </div>
+            </section>
+
+<section id="experience">
+                <h3>Experience & Research</h3>
+                
+                <div class="card static">
+                    <div class="card-dates">Apr 2025 — Aug 2025</div>
+                    <div class="card-content">
+                        <h4>
+                            Machine Learning Research Assistant · Krembil Brain Institute
+                        </h4>
+                        <p>Built an end-to-end Python pipeline to analyze brain MRI data for Parkinson's disease diagnosis, automating preprocessing, segmentation and radiomics feature extraction.</p>
+                        
+                        <div class="project-stats">
+                            <div class="stat-item"><strong>~55% → 85%</strong> Accuracy increase</div>
+                            <div class="stat-item"><strong>L1</strong> Feature selection</div>
+                        </div>
+
+                        <div class="skills-list">
+                            <span class="skill-tag">Python</span>
+                            <span class="skill-tag">PyRadiomics</span>
+                            <span class="skill-tag">Random Forest</span>
+                            <span class="skill-tag">XGBoost</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card static">
+                    <div class="card-dates">Jan 2025 — Apr 2025</div>
+                    <div class="card-content">
+                        <h4>
+                            Biomedical Device Development Project · University of Toronto (MEng)
+                        </h4>
+                        <p>In a team of 6, developed a Class III, MRI-guided brain tumour ablation device concept under ISO 13485. Contributed to design inputs, verification testing, and risk and hazard analysis, tracing market requirements to testing.</p>
+                        
+                        <div class="project-stats">
+                            <div class="stat-item"><strong>240+</strong> Design inputs</div>
+                            <div class="stat-item"><strong>200+</strong> Planned V&V tests</div>
+                        </div>
+
+                        <div class="skills-list">
+                            <span class="skill-tag">ISO 13485</span>
+                            <span class="skill-tag">ISO 14971</span>
+                            <span class="skill-tag">Risk Analysis</span>
+                        </div>
+                    </div>
+                </div>
+                            <div class="card static">
+                    <div class="card-dates">Sep 2023 — Apr 2024</div>
+                    <div class="card-content">
+                        <h4>Honours Thesis · Western University (Asfaha Lab)</h4>
+                        <p>Compared R-spondin 1 and 3 effects on colonic organoid regeneration using organoids from colitis-model and control mice, quantifying organoid number, budding and size from serial microscopy images. Found significantly fewer organoids in R-spondin 3 cultures from colitis mice, contradicting prior in-vivo findings.</p>
+
+                        <div class="project-stats">
+                            <div class="stat-item"><strong>n=4</strong> Per group</div>
+                            <div class="stat-item"><strong>p &lt; 0.05</strong> Rspo3 vs. Rspo1, colitis</div>
+                        </div>
+
+                        <div class="skills-list">
+                            <span class="skill-tag">3D Organoid Culture</span>
+                            <span class="skill-tag">Crypt Isolation</span>
+                            <span class="skill-tag">Microscopy</span>
+                            <span class="skill-tag">t-tests / ANOVA</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+<section id="projects">
+                <h3>Featured Projects</h3>
+                
+                <!-- Project 1: LoRA with Centered Live Demo Button under Stats -->
+                <div class="featured-project-card">
+                    <div class="featured-header">Featured Project · Jul 2026 — Aug 2026</div>
+                    <div class="featured-title">Biomedical Text Classification with LoRA</div>
+                    <div class="featured-grid">
+                        <div class="featured-img-wrap">
+                            <img src="assets/lora/accuracy_vs_rank.png" alt="Test accuracy vs LoRA rank for alpha/r and alpha/sqrt(r) scaling" class="featured-img contain">
+                        </div>
+                        <div>
+                            <div class="featured-desc-box">
+                                Implemented LoRA from scratch in PyTorch to fine-tune RoBERTa-base on PubMed-RCT abstracts, then benchmarked it against full fine-tuning across five ranks and two scaling rules. Traced a training collapse in the alpha/√r runs at rank 16 and above to a scaling factor that grew with rank.
+                            </div>
+                            <div class="project-stats">
+                                <div class="stat-item"><strong>Up to 170x</strong> Smaller checkpoint</div>
+                                <div class="stat-item"><strong>0.6–2.3%</strong> Params trained</div>
+                                <div class="stat-item"><strong>~35%</strong> Less peak GPU memory</div>
+                                <div class="stat-item"><strong>84.5% vs. 87.4%</strong> Best LoRA vs. full fine-tune</div>
+                            </div>
+                            <!-- Live demo is intentionally offline while weights are retrained; see rc-note below for status -->
+                            <div style="display: flex; justify-content: center; margin: 16px 0;">
+                                <span title="Weights are being retrained and re-uploaded to the Space" style="display: inline-flex; align-items: center; gap: 8px; background-color: rgba(148, 163, 184, 0.1); color: var(--text-main); padding: 10px 20px; border-radius: 6px; font-weight: 700; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em; border: 1px dashed rgba(148, 163, 184, 0.35); cursor: default;">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                                    Live Demo — Retraining Weights
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="result-chart" role="group" aria-label="Test accuracy of LoRA at five ranks compared with full fine-tuning">
+                        <h5>Test accuracy: LoRA vs. full fine-tuning</h5>
+                        <div class="rc-row"><span>Full fine-tune (all 177K sentences)</span><div class="rc-bar"><i class="ref" style="width:87.4%"></i></div><span class="rc-val">87.4%</span></div>
+                        <div class="rc-row"><span>LoRA, rank 4</span><div class="rc-bar"><i style="width:84.1%"></i></div><span class="rc-val">84.1%</span></div>
+                        <div class="rc-row"><span>LoRA, rank 8 (best)</span><div class="rc-bar"><i class="hi" style="width:84.5%"></i></div><span class="rc-val">84.5%</span></div>
+                        <div class="rc-row"><span>LoRA, rank 16</span><div class="rc-bar"><i style="width:84.4%"></i></div><span class="rc-val">84.4%</span></div>
+                        <div class="rc-row"><span>LoRA, rank 32</span><div class="rc-bar"><i style="width:84.0%"></i></div><span class="rc-val">84.0%</span></div>
+                        <div class="rc-row"><span>LoRA, rank 64</span><div class="rc-bar"><i style="width:82.1%"></i></div><span class="rc-val">82.1%</span></div>
+                        <div class="rc-row"><span>alpha/√r scaling, rank 16, 32 and 64</span><div class="rc-bar"><i class="bad" style="width:33.4%"></i></div><span class="rc-val">33.4%</span></div>
+                        <p class="rc-note">LoRA rows use alpha/r scaling. The red row is the collapse to a single predicted class. LoRA trained on a 25K-sentence subsample for 1–2 epochs, while the full fine-tune used all 177K sentences for 3 epochs, so the real gap is likely narrower.</p>
+                    </div>
+                    <div class="skills-list">
+                        <span class="skill-tag">PyTorch</span>
+                        <span class="skill-tag">Hugging Face</span>
+                        <span class="skill-tag">LLM Fine-Tuning</span>
+                    </div>
+                    <div class="featured-links">
+                        <a href="lora-project.html" style="color: var(--accent); font-weight: 700;">
+                            Learn More
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+                        </a>
+                        <a href="https://github.com/gabrielchan22/LoRA_PubMedRCT" target="_blank">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+                            View Source
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Project 2: CNN Study -->
+                <div class="featured-project-card">
+                    <div class="featured-header">Featured Project · Jun 2026</div>
+                    <div class="featured-title">CNN Architecture Study</div>
+                    <div class="featured-grid">
+                        <div class="featured-img-wrap">
+                            <img src="assets/cnn/architecture_diagrams/Finetuned_Xception41.png" alt="Fine-tuned Xception-41 architecture diagram" class="featured-img contain">
+                        </div>
+                        <div>
+                            <div class="featured-desc-box">
+                                Benchmarked 8 CNN architectures to isolate the effects of batch normalization, residual connections, and transfer learning on the Intel Image Classification dataset. At this data size, added techniques alone did not help, and pretraining helped most.
+                            </div>
+                            <div class="project-stats">
+                                <div class="stat-item"><strong>91.0%</strong> Peak test accuracy</div>
+                                <div class="stat-item"><strong>+5.4 pts</strong> Over plain CNN baseline</div>
+                                <div class="stat-item"><strong>8</strong> Architectures</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="result-chart" role="group" aria-label="Test accuracy of eight CNN architectures">
+                        <h5>Test accuracy by architecture</h5>
+                        <div class="rc-row"><span>Fine-tuned Xception-41</span><div class="rc-bar"><i class="hi" style="width:91.0%"></i></div><span class="rc-val">91.0%</span></div>
+                        <div class="rc-row"><span>Pretrained Xception-41 (frozen)</span><div class="rc-bar"><i class="hi" style="width:89.2%"></i></div><span class="rc-val">89.2%</span></div>
+                        <div class="rc-row"><span>Xception-Lite V2 (+ dropout, augmentation)</span><div class="rc-bar"><i class="hi" style="width:87.0%"></i></div><span class="rc-val">87.0%</span></div>
+                        <div class="rc-row"><span>Baseline CNN</span><div class="rc-bar"><i class="ref" style="width:85.6%"></i></div><span class="rc-val">85.6%</span></div>
+                        <div class="rc-row"><span>+ Batch normalization</span><div class="rc-bar"><i style="width:85.4%"></i></div><span class="rc-val">85.4%</span></div>
+                        <div class="rc-row"><span>+ Depthwise-separable convolutions</span><div class="rc-bar"><i style="width:84.0%"></i></div><span class="rc-val">84.0%</span></div>
+                        <div class="rc-row"><span>Xception-Lite V1 (no regularization)</span><div class="rc-bar"><i style="width:82.8%"></i></div><span class="rc-val">82.8%</span></div>
+                        <div class="rc-row"><span>+ Residual connections</span><div class="rc-bar"><i style="width:82.7%"></i></div><span class="rc-val">82.7%</span></div>
+                        <p class="rc-note">Teal bars beat the plain CNN baseline (white). Pretrained models used 299×299 inputs and from-scratch models used 150×150. Each from-scratch stage adds one technique to the previous stage.</p>
+                    </div>
+                    <div class="skills-list">
+                        <span class="skill-tag">TensorFlow</span>
+                        <span class="skill-tag">Keras</span>
+                        <span class="skill-tag">Computer Vision</span>
+                    </div>
+                    <div class="featured-links">
+                        <a href="cnn-project.html" style="color: var(--accent); font-weight: 700;">
+                            Learn More
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+                        </a>
+                        <a href="https://github.com/gabrielchan22/Intel-Image-Classification" target="_blank">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+                            View Source
+                        </a>
+
+                        <a href="https://huggingface.co/idk100/intel-image-classification-cnn-comparison" target="_blank">Model weights on Hugging Face</a>
+</div>
+                </div>
+
+                <!-- Project 3: Anatomy Book with Hosted Image URL & Audiobook Emphasis -->
+                <div class="featured-project-card">
+                    <div class="featured-header">Published Work · Nov 2021 — Present</div>
+                    <div class="featured-title">Human Body Anatomy for Kids</div>
+                    <div class="featured-grid">
+                        <div class="featured-img-wrap">
+                            <!-- Audiobook cover art, hotlinked from the official Audible listing -->
+                            <img src="https://m.media-amazon.com/images/I/51JEKQkFgfL._SL500_.jpg" alt="Human Body Anatomy for Kids audiobook cover" class="featured-img">
+                        </div>
+                        <div>
+                            <div class="featured-desc-box">
+                                Authored and self-published, under the name Gavin Walton, an anatomy book that translates complex biology and physiology concepts into accessible material for readers aged 6–10. Coordinated end-to-end production.
+                            </div>
+                            <div class="project-stats">
+                                <div class="stat-item"><strong>Audiobook</strong> Top-selling format</div>
+                                <div class="stat-item"><strong>600+</strong> Copies sold</div>
+                            </div>
+                            <!-- Prominent Action Buttons with Audiobook prioritized -->
+                            <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 16px;">
+                                <a href="https://www.audible.com/pd/Human-Body-Anatomy-for-Kids-Audiobook/B0B6LRRNMD" target="_blank" style="display: inline-flex; align-items: center; justify-content: center; gap: 8px; background-color: rgba(94, 234, 212, 0.2); color: var(--accent); padding: 10px 18px; border-radius: 6px; font-weight: 700; font-size: 0.85rem; border: 1px solid rgba(94, 234, 212, 0.5); text-transform: uppercase; letter-spacing: 0.05em; transition: all 0.2s ease;">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polygon points="10 8 16 12 10 16 10 8"></polygon></svg>
+                                    Listen on Audible
+                                </a>
+                                <a href="https://www.amazon.ca/dp/B0CFCYXN5W" target="_blank" style="display: inline-flex; align-items: center; justify-content: center; gap: 8px; background-color: rgba(255, 255, 255, 0.08); color: var(--text-light); padding: 10px 18px; border-radius: 6px; font-weight: 700; font-size: 0.85rem; border: 1px solid rgba(255, 255, 255, 0.15); text-transform: uppercase; letter-spacing: 0.05em; transition: all 0.2s ease;">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4-4 0 0 1-8 0"></path></svg>
+                                    View paperback and ebook on Amazon
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="skills-list">
+                        <span class="skill-tag">Science Communication</span>
+                        <span class="skill-tag">Project Management</span>
+                    </div>
+                </div>
+            </section>
+
+            <section id="skills">
+                <h3>Skills Matrix</h3>
+                <div class="skills-grid">
+                    <div class="skill-card">
+                        <h4>Programming & Languages</h4>
+                        <div class="skills-list">
+                            <span class="skill-tag">Python</span>
+                            <span class="skill-tag">Java</span>
+                            <span class="skill-tag">R</span>
+                            <span class="skill-tag">Git/GitHub</span>
+                        </div>
+                    </div>
+                    <div class="skill-card">
+                        <h4>Machine Learning & AI</h4>
+                        <div class="skills-list">
+                            <span class="skill-tag">PyTorch</span>
+                            <span class="skill-tag">TensorFlow/Keras</span>
+                            <span class="skill-tag">Hugging Face</span>
+                            <span class="skill-tag">scikit-learn</span>
+                            <span class="skill-tag">PEFT/LoRA</span>
+                            <span class="skill-tag">CNNs</span>
+                        </div>
+                    </div>
+                    <div class="skill-card">
+                        <h4>Clinical & Biomedical</h4>
+                        <div class="skills-list">
+                            <span class="skill-tag">PyRadiomics</span>
+                            <span class="skill-tag">MRI Analysis</span>
+                            <span class="skill-tag">Literature Review</span>
+                            <span class="skill-tag">Biomedical Literature Analysis</span>
+                            <span class="skill-tag">3D Organoids</span>
+                            <span class="skill-tag">Light Microscopy</span>
+                            <span class="skill-tag">Animal Models</span>
+                            <span class="skill-tag">Cell Culture</span>
+                        </div>
+                    </div>
+                    <div class="skill-card">
+                        <h4>Regulated Environments</h4>
+                        <div class="skills-list">
+                            <span class="skill-tag">ISO 13485</span>
+                            <span class="skill-tag">ISO 14971</span>
+                            <span class="skill-tag">IEC 62304</span>
+                            <span class="skill-tag">Design Controls</span>
+                            <span class="skill-tag">Verification and Validation</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="education">
+                <h3>Education</h3>
+
+                <div class="card static">
+                    <div class="card-dates">Sep 2025 — Present</div>
+                    <div class="card-content">
+                        <h4>University of Pennsylvania</h4>
+                        <p>Master of Computer and Information Technology (Computer Science)</p>
+                    </div>
+                </div>
+
+                <div class="card static">
+                    <div class="card-dates">Sep 2024 — Aug 2025</div>
+                    <div class="card-content">
+                        <h4>University of Toronto</h4>
+                        <p>Master of Engineering, Biomedical Engineering</p>
+                    </div>
+                </div>
+
+                <div class="card static">
+                    <div class="card-dates">Sep 2020 — Jun 2024</div>
+                    <div class="card-content">
+                        <h4>Western University</h4>
+                        <p>Bachelor of Medical Sciences, Honours Specialization in Physiology and Pharmacology</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="contact">
+                <h3>Get in Touch</h3>
+                <div class="contact-box">
+                    <h4>Open to Work</h4>
+                    <p>I'm actively looking for machine learning and medtech roles where I can combine clinical physiology, biomedical data pipelines and custom AI architecture. I'm especially interested in:</p>
+                    <ul class="open-roles">
+                        <li><strong class="highlight">ML engineer or data scientist roles</strong> in health and biomedical settings, such as clinical imaging or biomedical text</li>
+                        <li><strong class="highlight">Medical device and digital health teams</strong> that build regulated software or AI-enabled devices</li>
+                        <li><strong class="highlight">Clinical and biomedical data analyst roles</strong>, working with research and clinical datasets</li>
+                    </ul>
+                    <p>The best way to reach me is by email.</p>
+                    <a href="mailto:gabriel.c10102@gmail.com" class="contact-btn">
+                        Say Hello / Email Me
+                    </a>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        if (window.matchMedia("(pointer: fine)").matches) {
+            const root = document.documentElement;
+            document.addEventListener("mousemove", (e) => {
+                root.style.setProperty('--x', e.clientX + "px");
+                root.style.setProperty('--y', e.clientY + "px");
+            });
+        }
+
+        const sections = document.querySelectorAll("section");
+        const navLinks = document.querySelectorAll(".nav-links a");
+
+        window.addEventListener("scroll", () => {
+            let current = "";
+            sections.forEach((section) => {
+                const sectionTop = section.offsetTop;
+                if (pageYOffset >= sectionTop - 150) {
+                    current = section.getAttribute("id");
+                }
+            });
+
+            navLinks.forEach((link) => {
+                link.classList.remove("active");
+                if (link.getAttribute("href") === "#" + current) {
+                    link.classList.add("active");
+                }
+            });
+        });
+    </script>
+</body>
+</html>
